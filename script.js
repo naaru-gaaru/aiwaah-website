@@ -24,7 +24,7 @@ form.addEventListener("submit", async (e) => {
 
   addMessage(message, "user");
 
-  const res = await fetch("YOUR_BACKEND_URL/aiwaah", {
+  const res = await fetch("https://aiwaah-backend.onrender.com/aiwaah", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ message }),
@@ -33,3 +33,4 @@ form.addEventListener("submit", async (e) => {
   const data = await res.json();
   addMessage(data.reply, "ai");
 });
+
