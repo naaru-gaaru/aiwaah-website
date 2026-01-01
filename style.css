@@ -8,6 +8,17 @@ body {
   height: 100vh;
 }
 
+@media (max-width: 500px) {
+  .app {
+    width: 95%;
+    height: 95vh;
+  }
+
+  header h1 {
+    font-size: 1.4rem;
+  }
+}
+
 .app {
   width: 420px;
   background: rgba(15, 25, 50, 0.9);
@@ -97,4 +108,5 @@ button {
     transform: translateY(0);
   }
 }
+
 
