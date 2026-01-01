@@ -66,3 +66,35 @@ button {
   cursor: pointer;
   font-weight: bold;
 }
+
+.message {
+  max-width: 85%;
+  animation: fadeIn 0.25s ease-in;
+}
+
+.user {
+  margin-left: auto;
+  background: linear-gradient(135deg, #3a4ca8, #2c3e70);
+}
+
+.ai {
+  margin-right: auto;
+  background: linear-gradient(135deg, #1fa37a, #157a5c);
+}
+
+.typing {
+  font-style: italic;
+  opacity: 0.85;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
