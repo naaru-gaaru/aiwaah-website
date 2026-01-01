@@ -19,10 +19,19 @@ function removeTypingIndicator() {
 function addMessage(text, className) {
   const div = document.createElement("div");
   div.className = `message ${className}`;
+
+  // ✨ Special styling for Scroll of Wisdom
+  if (text.includes("📜 Scroll of Wisdom")) {
+    div.style.border = "1px solid gold";
+    div.style.background = "linear-gradient(135deg, #f5e6a8, #d4af37)";
+    div.style.color = "#1b2b4f";
+  }
+
   div.textContent = text;
   chat.appendChild(div);
   chat.scrollTop = chat.scrollHeight;
 }
+
 
 addMessage(
   "✨ Greetings, traveler! I am AiWaah, your genie of financial wisdom. Which realm do you hail from — United States, Canada, or US Trans-Border?",
@@ -50,5 +59,6 @@ removeTypingIndicator();
 addMessage(data.reply, "ai");
 
 });
+
 
 
