@@ -2,6 +2,10 @@ const chat = document.getElementById("chat");
 const form = document.getElementById("chat-form");
 const input = document.getElementById("user-input");
 
+function setInputDisabled(state) {
+  input.disabled = state;
+}
+
 function addTypingIndicator() {
   const div = document.createElement("div");
   div.className = "message ai typing";
@@ -42,23 +46,36 @@ const BACKEND_URL = "https://aiwaah-backend.onrender.com";
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
-  const message = input.value;
+
+  const message = input.value.trim();
+  if (!message) return;
+
   input.value = "";
+  setInputDisabled(true);
 
   addMessage(message, "user");
   addTypingIndicator();
 
-  const res = await fetch(`${BACKEND_URL}/aiwaah`, {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ message })
+  try {
+    const res = await fetch(`${BACKEND_URL}/aiwaah`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message }),
+    });
+
+    const data = await res.json();
+
+    removeTypingIndicator();
+    addMessage(data.reply, "ai");
+  } catch (err) {
+    removeTypingIndicator();
+    addMessage("⚠️ The genie’s magic faltered. Please try again.", "ai");
+  } finally {
+    setInputDisabled(false);
+  }
 });
 
-const data = await res.json();
-removeTypingIndicator();
-addMessage(data.reply, "ai");
 
-});
 
 
 
