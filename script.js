@@ -24,14 +24,24 @@ function addMessage(text, className) {
   const div = document.createElement("div");
   div.className = `message ${className}`;
 
-  // ✨ Special styling for Scroll of Wisdom
+  // Convert AI text into readable HTML
+  const formatted = text
+    .replace(/^(.+?):$/gm, "<div class='section-title'>$1</div>")
+    .replace(/^[-•]\s+(.*)$/gm, "<li>$1</li>")
+    .replace(/^(🟢|🔹|⭐|💰|📊|💳|📜|✨)\s+(.*)$/gm, "<li>$1 $2</li>")
+    .replace(/\n\n+/g, "</p><p>")
+    .replace(/\n/g, "<br>");
+
+  const wrapped = formatted.includes("<li>")
+    ? `<ul>${formatted}</ul>`
+    : `<p>${formatted}</p>`;
+
+  // Scroll of Wisdom → class-based styling
   if (text.includes("📜 Scroll of Wisdom")) {
-    div.style.border = "1px solid gold";
-    div.style.background = "linear-gradient(135deg, #f5e6a8, #d4af37)";
-    div.style.color = "#1b2b4f";
+    div.classList.add("scroll");
   }
 
-  div.textContent = text;
+  div.innerHTML = wrapped;
   chat.appendChild(div);
   chat.scrollTop = chat.scrollHeight;
 }
@@ -74,6 +84,7 @@ form.addEventListener("submit", async (e) => {
     setInputDisabled(false);
   }
 });
+
 
 
 
