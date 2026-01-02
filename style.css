@@ -5,11 +5,13 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .app {
-  width: 420px;
+  width: 100%;
+  max-width: 420px;
+  height: 100dvh
   background: rgba(15, 25, 50, 0.9);
   border-radius: 16px;
   box-shadow: 0 0 30px rgba(255, 215, 100, 0.15);
@@ -123,12 +125,25 @@ button {
 
 /* Mobile */
 @media (max-width: 500px) {
-  .app {
-    width: 95%;
-    height: 95vh;
+  body {
+    align-items: stretch;
   }
 
-  header h1 {
-    font-size: 1.4rem;
+  .app {
+    border-radius: 0;
+    height: 100dvh;
+  }
+
+  #chat {
+    padding: 14px;
+  }
+
+  input {
+    font-size: 16px; /* prevents iOS zoom */
+  }
+
+  button {
+    font-size: 16px;
   }
 }
+
