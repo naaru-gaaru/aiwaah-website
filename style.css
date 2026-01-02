@@ -8,17 +8,6 @@ body {
   height: 100vh;
 }
 
-@media (max-width: 500px) {
-  .app {
-    width: 95%;
-    height: 95vh;
-  }
-
-  header h1 {
-    font-size: 1.4rem;
-  }
-}
-
 .app {
   width: 420px;
   background: rgba(15, 25, 50, 0.9);
@@ -42,22 +31,64 @@ header {
   overflow-y: auto;
 }
 
+/* Message bubbles */
 .message {
   margin-bottom: 10px;
   padding: 10px 12px;
   border-radius: 12px;
-  line-height: 1.4;
+  line-height: 1.6;
+  max-width: 85%;
+  animation: fadeIn 0.25s ease-in;
 }
 
 .user {
-  background: #2c3e70;
-  align-self: flex-end;
+  margin-left: auto;
+  background: linear-gradient(135deg, #3a4ca8, #2c3e70);
 }
 
 .ai {
-  background: #1c8f6e;
+  margin-right: auto;
+  background: linear-gradient(135deg, #1fa37a, #157a5c);
+  font-size: 0.95rem;
 }
 
+/* Typing indicator */
+.typing {
+  font-style: italic;
+  opacity: 0.85;
+}
+
+/* Section headers */
+.section-title {
+  margin-top: 10px;
+  margin-bottom: 6px;
+  font-weight: bold;
+  color: #f5e6a8;
+}
+
+/* Lists */
+.message ul {
+  padding-left: 20px;
+  margin: 8px 0;
+}
+
+.message li {
+  margin-bottom: 6px;
+}
+
+/* Scroll of Wisdom special look */
+.message.scroll {
+  background: linear-gradient(135deg, #f5e6a8, #d4af37);
+  color: #1b2b4f;
+  border: 1px solid gold;
+  font-family: "Georgia", serif;
+}
+
+.message.scroll .section-title {
+  color: #1b2b4f;
+}
+
+/* Input area */
 form {
   display: flex;
   border-top: 1px solid #333;
@@ -78,26 +109,7 @@ button {
   font-weight: bold;
 }
 
-.message {
-  max-width: 85%;
-  animation: fadeIn 0.25s ease-in;
-}
-
-.user {
-  margin-left: auto;
-  background: linear-gradient(135deg, #3a4ca8, #2c3e70);
-}
-
-.ai {
-  margin-right: auto;
-  background: linear-gradient(135deg, #1fa37a, #157a5c);
-}
-
-.typing {
-  font-style: italic;
-  opacity: 0.85;
-}
-
+/* Animations */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -109,4 +121,14 @@ button {
   }
 }
 
+/* Mobile */
+@media (max-width: 500px) {
+  .app {
+    width: 95%;
+    height: 95vh;
+  }
 
+  header h1 {
+    font-size: 1.4rem;
+  }
+}
