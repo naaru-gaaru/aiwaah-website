@@ -4,7 +4,7 @@ const input = document.getElementById("user-input");
 const SUPABASE_URL = "https://rqwnwkmjeiyagvyzdumi.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJxd253a21qZWl5YWd2eXpkdW1pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjczOTI4NzMsImV4cCI6MjA4Mjk2ODg3M30.T7h97fh3jgUC7NVa9O3Nz024ZWuR6Wz4d_fx7MKE5mo";
 
-const supabaseClient = supabaseJs.createClient(
+const supabaseClient = supabase.createClient(
   SUPABASE_URL,
   SUPABASE_ANON_KEY
 );
@@ -100,6 +100,7 @@ form.addEventListener("submit", async (e) => {
     setInputDisabled(false);
   }
 });
+
 
 
 
