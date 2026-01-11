@@ -1,0 +1,324 @@
+/* ===============================
+   GLOBAL RESET & THEME
+================================ */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  /* Critical for Fixed Shell */
+  overflow: hidden;
+  /* Prevent body scroll */
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: radial-gradient(circle at top, #0c1b3a 0%, #040b1c 70%);
+  color: #ffffff;
+}
+
+/* ===============================
+   APP SHELL (Flex Column)
+================================ */
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===============================
+   HEADER (FIXED)
+================================ */
+.app-header {
+  flex-shrink: 0;
+  /* Never shrink */
+  z-index: 10;
+  background: linear-gradient(135deg, #f6c26b, #f2a65a);
+  /* Golden Gradient */
+  border-radius: 0 0 18px 18px;
+  padding: 12px 0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.header-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.app-logo {
+  width: 54px;
+  height: 54px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.header-center {
+  text-align: center;
+  color: #1b2b4f;
+  /* Dark contrast text */
+}
+
+.app-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 2px;
+}
+
+.app-subtitle {
+  font-size: 0.85rem;
+  font-weight: 600;
+  opacity: 0.9;
+  margin-bottom: 2px;
+}
+
+.app-markets {
+  font-size: 0.8rem;
+  font-weight: 600;
+  opacity: 1;
+  /* Fully opaque */
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 4px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Google button */
+.login-btn {
+  background: #ffffff;
+  color: #1b2b4f;
+  border: none;
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.login-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: #fffdf5;
+}
+
+/* ===============================
+   CHAT AREA (SCROLLABLE)
+================================ */
+.chat-wrapper {
+  flex-grow: 1;
+  /* Fills remaining space */
+  overflow-y: auto;
+  /* Handle internal scroll */
+  scroll-behavior: smooth;
+  padding: 20px 0;
+  /* Scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+/* Container for messages */
+.chat {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Message bubbles */
+.message {
+  max-width: 85%;
+  padding: 16px 20px;
+  margin: 10px 0;
+  border-radius: 20px;
+  line-height: 1.6;
+  word-wrap: break-word;
+  font-size: 0.95rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* AI Bubble: Teal/Green */
+.message.ai {
+  background: linear-gradient(135deg, #1f8f6b, #156b4f);
+  color: #ffffff;
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+}
+
+/* User Bubble: Blue */
+.message.user {
+  background: linear-gradient(135deg, #2f4cff, #1d33b5);
+  color: #ffffff;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+
+/* Lists inside messages */
+.message ul {
+  padding-left: 20px;
+  margin: 8px 0;
+}
+
+.message li {
+  margin-bottom: 4px;
+}
+
+.message p {
+  margin: 0;
+}
+
+.message p+p {
+  margin-top: 10px;
+}
+
+/* ===============================
+   INPUT BAR (FIXED)
+================================ */
+.input-bar {
+  flex-shrink: 0;
+  /* Never shrink */
+  background: linear-gradient(to bottom, #081126, #040b1c);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 16px 0 24px 0;
+  /* Extra padding for bottom safe area */
+  position: relative;
+  z-index: 20;
+}
+
+.input-bar form {
+  /* "Half the current size and centered" 
+       Current was 720px. Half ~360px. 
+       Let's use 50% width but with a reasonable min-width. */
+  width: 50%;
+  min-width: 320px;
+  max-width: 720px;
+  /* Cap at original width if screen is huge */
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  gap: 12px;
+}
+
+/* Fix: If .input-bar is the FORM, we need to handle the internal layout directly on it. */
+form.input-bar {
+  display: flex !important;
+  /* Force flex */
+  justify-content: center;
+  align-items: center;
+}
+
+.input-bar input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  padding: 14px 20px;
+  border-radius: 999px;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+
+.input-bar input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.input-bar input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.send-btn {
+  background: linear-gradient(135deg, #f6c26b, #f2a65a);
+  color: #1b2b4f;
+  border: none;
+  border-radius: 999px;
+  padding: 0 24px;
+  height: 48px;
+  /* Match input height roughly */
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.1s, filter 0.2s;
+  box-shadow: 0 4px 12px rgba(246, 194, 107, 0.2);
+}
+
+.send-btn:hover {
+  filter: brightness(1.1);
+  transform: scale(1.02);
+}
+
+.send-btn:active {
+  transform: scale(0.98);
+}
+
+.send-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+
+/* ===============================
+   MOBILE TUNING
+================================ */
+@media (max-width: 600px) {
+  .message {
+    max-width: 90%;
+    font-size: 0.9rem;
+    padding: 12px 16px;
+  }
+
+  .header-inner {
+    flex-direction: column;
+    gap: 10px;
+    padding-bottom: 4px;
+  }
+
+  .header-right {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+  }
+
+  .header-left {
+    margin-bottom: 4px;
+  }
+
+  /* User wanted flags visible. Removing display:none */
+  .app-markets {
+    display: block;
+    font-size: 0.75rem;
+    margin-top: 4px;
+    opacity: 1;
+    /* Make sure it's visible */
+  }
+
+  .input-bar form {
+    width: 95%;
+    /* On mobile, take up more space */
+  }
+}

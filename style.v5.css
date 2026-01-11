@@ -1,0 +1,1044 @@
+/* ===============================
+   GLOBAL RESET & THEME (v5 Palette)
+================================ */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: rgb(7, 15, 23); /* Page BG */
+  color: rgb(230, 242, 248); /* Main Text */
+}
+
+/* ===============================
+   APP SHELL (Flex Column)
+================================ */
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===============================
+   HEADER (FIXED)
+================================ */
+.app-header {
+  flex-shrink: 0;
+  z-index: 10;
+  background: linear-gradient(135deg, rgb(8, 33, 46), rgb(10, 52, 67)); /* Header Gradient */
+  border-radius: 0 0 24px 24px;
+  padding: 20px 0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  border-bottom: 1px solid rgba(255, 184, 77, 0.1); /* Gold CTA rim subtle */
+}
+
+.header-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.app-logo {
+  width: auto;
+  height: 80px;
+  /* Filters to make it pop against new header */
+  filter: contrast(1.2) saturate(1.2) brightness(1.1);
+  object-fit: contain;
+  mix-blend-mode: screen; 
+}
+
+.header-center {
+  text-align: center;
+  color: rgb(230, 242, 248); /* Main Text */
+}
+
+.app-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 2px;
+  color: rgb(255, 184, 77); /* Gold CTA */
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.app-subtitle {
+  font-size: 0.85rem;
+  font-weight: 600;
+  opacity: 1;
+  margin-bottom: 2px;
+  color: rgb(155, 190, 205); /* Muted Text */
+}
+
+.app-markets {
+  font-size: 0.8rem;
+  font-weight: 600;
+  opacity: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 4px;
+  color: rgb(255, 184, 77); /* Gold CTA */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Google button */
+.login-btn {
+  background: rgb(255, 184, 77); /* Gold CTA */
+  color: rgb(7, 15, 23); /* Page BG (Dark) for contrast */
+  border: none;
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.login-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  filter: brightness(1.1);
+}
+
+/* ===============================
+   CHAT AREA (SCROLLABLE)
+================================ */
+.chat-wrapper {
+  flex-grow: 1;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  padding: 20px 0;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 153, 170, 0.3) transparent; /* Mystic Teal scrollbar */
+}
+
+.chat {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.message {
+  max-width: 85%;
+  padding: 16px 20px;
+  margin: 10px 0;
+  border-radius: 20px;
+  line-height: 1.6;
+  word-wrap: break-word;
+  font-size: 0.95rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* AI Bubble: uses Mystic Teal -> Genie Cyan */
+.message.ai {
+  background: linear-gradient(135deg, rgb(0, 153, 170), rgb(0, 120, 135));
+  color: #ffffff; 
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+  border: 1px solid rgb(0, 209, 209); /* Genie Cyan border */
+}
+
+/* User Bubble: Deep Blue to match palette feel, or kept distinctive */
+.message.user {
+  background: linear-gradient(135deg, #1A237E, #0D47A1);
+  color: #ffffff;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+  border: 1px solid rgba(155, 190, 205, 0.3);
+}
+
+.message ul { padding-left: 20px; margin: 8px 0; }
+.message li { margin-bottom: 4px; }
+.message p { margin: 0; }
+.message p+p { margin-top: 10px; }
+
+/* ===============================
+   INPUT BAR (FIXED)
+================================ */
+.input-bar {
+  flex-shrink: 0;
+  background: rgb(18, 32, 44); /* Input BG */
+  border-top: 1px solid rgb(8, 33, 46);
+  padding: 16px 0 24px 0;
+  position: relative;
+  z-index: 20;
+}
+
+.input-bar form {
+  width: 50% !important;
+  min-width: 320px !important;
+  max-width: 720px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: flex !important;
+  justify-content: center !important;
+  gap: 12px !important;
+}
+
+form.input-bar {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
+
+.input-bar input {
+  flex: 1;
+  background: rgba(7, 15, 23, 0.5); /* Semi-transparent Page BG */
+  border: 1px solid rgb(155, 190, 205); /* Muted Text border */
+  color: rgb(230, 242, 248);
+  padding: 14px 20px;
+  border-radius: 999px;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.input-bar input:focus {
+  outline: none;
+  background: rgba(7, 15, 23, 0.8);
+  border-color: rgb(0, 209, 209); /* Genie Cyan focus */
+  box-shadow: 0 0 0 2px rgba(0, 209, 209, 0.2);
+}
+
+.input-bar input::placeholder {
+  color: rgba(155, 190, 205, 0.5);
+}
+
+.send-btn {
+  background: rgb(255, 184, 77); /* Gold CTA */
+  color: rgb(7, 15, 23);
+  border: none;
+  border-radius: 999px;
+  padding: 0 24px;
+  height: 48px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.1s, filter 0.2s;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.send-btn:hover {
+  filter: brightness(1.1);
+  transform: scale(1.02);
+}
+
+.send-btn:active {
+  transform: scale(0.98);
+}
+
+.send-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ===============================
+   MOBILE TUNING
+================================ */
+@media (max-width: 600px) {
+  .message { max-width: 90%; font-size: 0.9rem; padding: 12px 16px; }
+  .header-inner { flex-direction: column; gap: 10px; padding-bottom: 4px; }
+  .header-right { position: absolute; top: 12px; right: 16px; }
+  .header-left { margin-bottom: 4px; }
+  .app-markets { display: block !important; }
+  .input-bar form { width: 90% !important; }
+}
+
+/* ===============================
+   NUCLEAR FIXES (v3 legacy preserved)
+================================ */
+/* Repeated for safety in specificity wars */
+.input-bar form {
+  width: 50% !important;
+  min-width: 320px !important;
+  max-width: 720px !important;
+}
+
+.app-markets {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  /* Critical for Fixed Shell */
+  overflow: hidden;
+  /* Prevent body scroll */
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: radial-gradient(circle at top, #0f2027 0%, #000000 80%);
+  /* Deep Teal/Black Void */
+  color: #ffffff;
+}
+
+/* ===============================
+   APP SHELL (Flex Column)
+================================ */
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===============================
+   HEADER (FIXED)
+================================ */
+.app-header {
+  flex-shrink: 0;
+  /* Never shrink */
+  z-index: 10;
+  background: linear-gradient(135deg, #02111d, #033a46);
+  /* Deep Ocean Teal */
+  border-radius: 0 0 24px 24px;
+  /* More rounded */
+  padding: 20px 0;
+  /* Significant padding to prevent logo cut-off */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  border-bottom: 1px solid rgba(246, 194, 107, 0.1);
+  /* Subtle gold rim */
+}
+
+.header-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.app-logo {
+  width: auto;
+  height: 80px;
+  /* Big, but container padding wraps it */
+  filter: contrast(1.3) saturate(1.3) brightness(1.1);
+  object-fit: contain;
+  mix-blend-mode: screen;
+  /* Hack to hide black background. Notes: Black shadows disappear. */
+}
+
+.header-center {
+  text-align: center;
+  color: #ffffff;
+}
+
+.app-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 2px;
+  color: #f6c26b;
+  /* Gold Title */
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.app-subtitle {
+  font-size: 0.85rem;
+  font-weight: 600;
+  opacity: 0.9;
+  margin-bottom: 2px;
+  color: #4db6ac;
+  /* Light Teal for subtitle */
+}
+
+.app-markets {
+  font-size: 0.8rem;
+  font-weight: 600;
+  opacity: 1;
+  /* Fully opaque */
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 4px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Google button */
+.login-btn {
+  background: linear-gradient(135deg, #f6c26b, #f2a65a);
+  /* Gold button */
+  color: #1b2b4f;
+  border: none;
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.login-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: #fffdf5;
+}
+
+/* ===============================
+   CHAT AREA (SCROLLABLE)
+================================ */
+.chat-wrapper {
+  flex-grow: 1;
+  /* Fills remaining space */
+  overflow-y: auto;
+  /* Handle internal scroll */
+  scroll-behavior: smooth;
+  padding: 20px 0;
+  /* Scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(77, 182, 172, 0.3) transparent;
+  /* Teal scrollbar */
+}
+
+/* Container for messages */
+.chat {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Message bubbles */
+.message {
+  max-width: 85%;
+  padding: 16px 20px;
+  margin: 10px 0;
+  border-radius: 20px;
+  line-height: 1.6;
+  word-wrap: break-word;
+  font-size: 0.95rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* AI Bubble: Deep Teal */
+.message.ai {
+  background: linear-gradient(135deg, #006064, #004d40);
+  color: #ffffff;
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+  border: 1px solid rgba(77, 182, 172, 0.3);
+}
+
+/* User Bubble: Deep Blue */
+.message.user {
+  background: linear-gradient(135deg, #1A237E, #0D47A1);
+  color: #ffffff;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+  border: 1px solid rgba(66, 165, 245, 0.3);
+}
+
+/* Lists inside messages */
+.message ul {
+  padding-left: 20px;
+  margin: 8px 0;
+}
+
+.message li {
+  margin-bottom: 4px;
+}
+
+.message p {
+  margin: 0;
+}
+
+.message p+p {
+  margin-top: 10px;
+}
+
+/* ===============================
+   INPUT BAR (FIXED)
+================================ */
+.input-bar {
+  flex-shrink: 0;
+  /* Never shrink */
+  background: linear-gradient(to bottom, #02111d, #010a12);
+  /* Matching Footer */
+  border-top: 1px solid rgba(77, 182, 172, 0.2);
+  padding: 16px 0 24px 0;
+  /* Extra padding for bottom safe area */
+  position: relative;
+  z-index: 20;
+}
+
+.input-bar form {
+  /* "Half the current size and centered" 
+       Current was 720px. Half ~360px. 
+       Let's use 50% width but with a reasonable min-width. */
+  width: 50%;
+  min-width: 320px;
+  max-width: 720px;
+  /* Cap at original width if screen is huge */
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  gap: 12px;
+}
+
+/* Fix: If .input-bar is the FORM, we need to handle the internal layout directly on it. */
+form.input-bar {
+  display: flex !important;
+  /* Force flex */
+  justify-content: center;
+  align-items: center;
+}
+
+.input-bar input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  padding: 14px 20px;
+  border-radius: 999px;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+
+.input-bar input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.input-bar input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.send-btn {
+  background: linear-gradient(135deg, #f6c26b, #f2a65a);
+  /* Gold button */
+  color: #1b2b4f;
+  border: none;
+  border-radius: 999px;
+  padding: 0 24px;
+  height: 48px;
+  /* Match input height roughly */
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.1s, filter 0.2s;
+  box-shadow: 0 4px 12px rgba(246, 194, 107, 0.2);
+}
+
+.send-btn:hover {
+  filter: brightness(1.1);
+  transform: scale(1.02);
+}
+
+.send-btn:active {
+  transform: scale(0.98);
+}
+
+.send-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+
+/* ===============================
+   MOBILE TUNING
+================================ */
+@media (max-width: 600px) {
+  .message {
+    max-width: 90%;
+    font-size: 0.9rem;
+    padding: 12px 16px;
+  }
+
+  .header-inner {
+    flex-direction: column;
+    gap: 10px;
+    padding-bottom: 4px;
+  }
+
+  .header-right {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+  }
+
+  .header-left {
+    margin-bottom: 4px;
+  }
+
+  /* User wanted flags visible. Removing display:none */
+  .app-markets {
+    display: block;
+    font-size: 0.75rem;
+    margin-top: 4px;
+    opacity: 1;
+    /* Make sure it's visible */
+  }
+
+  .input-bar form {
+    width: 95%;
+    /* On mobile, take up more space */
+  }
+
+}
+
+/* ===============================
+   NUCLEAR FIXES (v3)
+================================ */
+
+/* FORCE Input Bar Centering & Sizing */
+.input-bar form {
+  width: 50% !important;
+  min-width: 320px !important;
+  max-width: 720px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: flex !important;
+  justify-content: center !important;
+  gap: 12px !important;
+}
+
+/* FORCE Flags Visibility */
+.app-markets {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  color: #f6c26b !important;
+  /* Gold text for contrast on Dark header */
+  text-shadow: none !important;
+  font-weight: 700 !important;
+  font-size: 0.85rem !important;
+  margin-top: 5px !important;
+}
+
+/* Ensure Mobile keeps them visible too */
+@media (max-width: 600px) {
+  .app-markets {
+    display: block !important;
+  }
+
+  .input-bar form {
+    width: 90% !important;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  /* Critical for Fixed Shell */
+  overflow: hidden;
+  /* Prevent body scroll */
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: radial-gradient(circle at top, #0f2027 0%, #000000 80%);
+  /* Deep Teal/Black Void */
+  color: #ffffff;
+}
+
+/* ===============================
+   APP SHELL (Flex Column)
+================================ */
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===============================
+   HEADER (FIXED)
+================================ */
+.app-header {
+  flex-shrink: 0;
+  /* Never shrink */
+  z-index: 10;
+  background: linear-gradient(135deg, #02111d, #033a46);
+  /* Deep Ocean Teal */
+  border-radius: 0 0 24px 24px;
+  /* More rounded */
+  padding: 20px 0;
+  /* Significant padding to prevent logo cut-off */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  border-bottom: 1px solid rgba(246, 194, 107, 0.1);
+  /* Subtle gold rim */
+}
+
+.header-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.app-logo {
+  width: auto;
+  height: 80px;
+  /* Big, but container padding wraps it */
+  filter: contrast(1.3) saturate(1.3) brightness(1.1);
+  object-fit: contain;
+  mix-blend-mode: screen;
+  /* Hack to hide black background. Notes: Black shadows disappear. */
+}
+
+.header-center {
+  text-align: center;
+  color: #ffffff;
+}
+
+.app-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 2px;
+  color: #f6c26b;
+  /* Gold Title */
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.app-subtitle {
+  font-size: 0.85rem;
+  font-weight: 600;
+  opacity: 0.9;
+  margin-bottom: 2px;
+  color: #4db6ac;
+  /* Light Teal for subtitle */
+}
+
+.app-markets {
+  font-size: 0.8rem;
+  font-weight: 600;
+  opacity: 1;
+  /* Fully opaque */
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 4px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Google button */
+.login-btn {
+  background: linear-gradient(135deg, #f6c26b, #f2a65a);
+  /* Gold button */
+  color: #1b2b4f;
+  border: none;
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.login-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: #fffdf5;
+}
+
+/* ===============================
+   CHAT AREA (SCROLLABLE)
+================================ */
+.chat-wrapper {
+  flex-grow: 1;
+  /* Fills remaining space */
+  overflow-y: auto;
+  /* Handle internal scroll */
+  scroll-behavior: smooth;
+  padding: 20px 0;
+  /* Scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(77, 182, 172, 0.3) transparent;
+  /* Teal scrollbar */
+}
+
+/* Container for messages */
+.chat {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Message bubbles */
+.message {
+  max-width: 85%;
+  padding: 16px 20px;
+  margin: 10px 0;
+  border-radius: 20px;
+  line-height: 1.6;
+  word-wrap: break-word;
+  font-size: 0.95rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* AI Bubble: Deep Teal */
+.message.ai {
+  background: linear-gradient(135deg, #006064, #004d40);
+  color: #ffffff;
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+  border: 1px solid rgba(77, 182, 172, 0.3);
+}
+
+/* User Bubble: Deep Blue */
+.message.user {
+  background: linear-gradient(135deg, #1A237E, #0D47A1);
+  color: #ffffff;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+  border: 1px solid rgba(66, 165, 245, 0.3);
+}
+
+/* Lists inside messages */
+.message ul {
+  padding-left: 20px;
+  margin: 8px 0;
+}
+
+.message li {
+  margin-bottom: 4px;
+}
+
+.message p {
+  margin: 0;
+}
+
+.message p+p {
+  margin-top: 10px;
+}
+
+/* ===============================
+   INPUT BAR (FIXED)
+================================ */
+.input-bar {
+  flex-shrink: 0;
+  /* Never shrink */
+  background: linear-gradient(to bottom, #02111d, #010a12);
+  /* Matching Footer */
+  border-top: 1px solid rgba(77, 182, 172, 0.2);
+  padding: 16px 0 24px 0;
+  /* Extra padding for bottom safe area */
+  position: relative;
+  z-index: 20;
+}
+
+.input-bar form {
+  /* "Half the current size and centered" 
+       Current was 720px. Half ~360px. 
+       Let's use 50% width but with a reasonable min-width. */
+  width: 50%;
+  min-width: 320px;
+  max-width: 720px;
+  /* Cap at original width if screen is huge */
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  gap: 12px;
+}
+
+/* Fix: If .input-bar is the FORM, we need to handle the internal layout directly on it. */
+form.input-bar {
+  display: flex !important;
+  /* Force flex */
+  justify-content: center;
+  align-items: center;
+}
+
+.input-bar input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  padding: 14px 20px;
+  border-radius: 999px;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+
+.input-bar input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.input-bar input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.send-btn {
+  background: linear-gradient(135deg, #f6c26b, #f2a65a);
+  color: #1b2b4f;
+  border: none;
+  border-radius: 999px;
+  padding: 0 24px;
+  height: 48px;
+  /* Match input height roughly */
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.1s, filter 0.2s;
+  box-shadow: 0 4px 12px rgba(246, 194, 107, 0.2);
+}
+
+.send-btn:hover {
+  filter: brightness(1.1);
+  transform: scale(1.02);
+}
+
+.send-btn:active {
+  transform: scale(0.98);
+}
+
+.send-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+
+/* ===============================
+   MOBILE TUNING
+================================ */
+@media (max-width: 600px) {
+  .message {
+    max-width: 90%;
+    font-size: 0.9rem;
+    padding: 12px 16px;
+  }
+
+  .header-inner {
+    flex-direction: column;
+    gap: 10px;
+    padding-bottom: 4px;
+  }
+
+  .header-right {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+  }
+
+  .header-left {
+    margin-bottom: 4px;
+  }
+
+  /* User wanted flags visible. Removing display:none */
+  .app-markets {
+    display: block;
+    font-size: 0.75rem;
+    margin-top: 4px;
+    opacity: 1;
+    /* Make sure it's visible */
+  }
+
+  .input-bar form {
+    width: 95%;
+    /* On mobile, take up more space */
+  }
+
+}
+
+/* ===============================
+   NUCLEAR FIXES (v3)
+================================ */
+
+/* FORCE Input Bar Centering & Sizing */
+.input-bar form {
+  width: 50% !important;
+  min-width: 320px !important;
+  max-width: 720px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: flex !important;
+  justify-content: center !important;
+  gap: 12px !important;
+}
+
+/* FORCE Flags Visibility */
+.app-markets {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  color: #1b2b4f !important;
+  /* Dark text for contrast on Gold header */
+  text-shadow: none !important;
+  font-weight: 700 !important;
+  font-size: 0.85rem !important;
+  margin-top: 5px !important;
+}
+
+/* Ensure Mobile keeps them visible too */
+@media (max-width: 600px) {
+  .app-markets {
+    display: block !important;
+  }
+
+  .input-bar form {
+    width: 90% !important;
+  }
+}

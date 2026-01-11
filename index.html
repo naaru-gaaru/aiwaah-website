@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>AiWaah!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Aref+Ruqaa:wght@400;700&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="style.v11.css" />
+</head>
+
+<body>
+
+  <!-- Fixed Header -->
+  <header class="app-header">
+    <div class="header-inner">
+      <!-- Left: Logo -->
+      <div class="header-left">
+        <img src="assets/AiWaah_new.png" alt="AiWaah logo" class="app-logo" />
+      </div>
+
+      <!-- Center: Title -->
+      <div class="header-center">
+        <div class="app-title">AiWaah!</div>
+        <div class="app-subtitle">
+          Your CFP & CPA Financial Genie
+        </div>
+        <div class="app-markets">
+          🇺🇸 United States • 🇨🇦 Canada • 🌍 US Trans-Border
+        </div>
+      </div>
+
+      <!-- Right: Auth -->
+      <div class="header-right">
+        <button id="login-google" class="login-btn">
+          🔐 Sign in with Google
+        </button>
+      </div>
+    </div>
+  </header>
+
+
+  <!-- Main Chat Area -->
+  <main class="chat-wrapper">
+    <div id="chat" class="chat"></div>
+  </main>
+
+  <!-- Input Bar -->
+  <div class="input-bar">
+    <form id="chat-form">
+      <input id="user-input" type="text" placeholder="Summon AiWaah for wealth, taxes & financial desires.."
+        autocomplete="off" />
+      <button type="submit" class="send-btn">✨ Send</button>
+    </form>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
