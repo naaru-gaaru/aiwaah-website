@@ -198,21 +198,37 @@ body {
     border: 1px solid rgb(150, 135, 195);
 }
 
-.message ul {
-    padding-left: 20px;
+/* Markdown Content Styling */
+.message p {
+    margin: 0 0 8px 0;
+    /* Add bottom spacing to paragraphs */
+}
+
+.message p:last-child {
+    margin-bottom: 0;
+}
+
+.message ul,
+.message ol {
     margin: 8px 0;
+    padding-left: 24px;
+    /* Better indent */
 }
 
 .message li {
     margin-bottom: 4px;
+    line-height: 1.5;
 }
 
-.message p {
-    margin: 0;
+.message strong {
+    font-weight: 700;
+    color: rgb(255, 204, 77);
+    /* Gold for emphasis in Dark Mode */
 }
 
-.message p+p {
-    margin-top: 10px;
+.message a {
+    color: rgb(0, 209, 209);
+    text-decoration: underline;
 }
 
 /* ===============================

@@ -48,7 +48,9 @@ function scrollToBottom() {
 function addMessage(text, role) {
   const bubble = document.createElement("div");
   bubble.className = `message ${role}`;
-  bubble.innerHTML = `<p>${text}</p>`;
+  // Use marked.parse to convert Markdown -> HTML
+  // DOMPurify is recommended for security, but skipping for simplicity as per "Plain JS" request
+  bubble.innerHTML = typeof marked !== "undefined" ? marked.parse(text) : `<p>${text}</p>`;
   chatContent.appendChild(bubble);
   scrollToBottom();
 }
