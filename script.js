@@ -139,7 +139,6 @@ async function initAuth() {
     if (isAuthenticated) {
       // Get User Profile
       const user = await auth0Client.getUser();
-      console.log("👤 User Profile:", user);
       updateUserInfo(user);
 
       // Get Token and Load History
@@ -147,11 +146,10 @@ async function initAuth() {
 
       // Load Chat History
       hideLogin();
-      console.log("User is authenticated");
+      hideLogin();
       await loadChatHistory(token);
     } else {
       showLogin();
-      console.log("User is NOT authenticated");
     }
   } catch (error) {
     console.error("Auth0 Init Error:", error);
@@ -173,13 +171,7 @@ async function initAuth() {
  *****************************************************/
 if (googleBtn) {
   googleBtn.addEventListener("click", async () => {
-    console.log("Sign in clicked...");
-    if (!auth0Client) {
-      console.error("❌ Auth0 Client is NOT ready yet!");
-      alert("Auth0 not ready. Please wait or check console for errors.");
-      return;
-    }
-    console.log("Redirecting to Auth0...");
+    if (!auth0Client) return;
     await auth0Client.loginWithRedirect();
   });
 }
@@ -210,7 +202,6 @@ addMessage(
  *****************************************************/
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
-  console.log("Submit fired");
 
   const message = input.value.trim();
   if (!message) return;
@@ -226,7 +217,6 @@ form.addEventListener("submit", async (e) => {
     // Get Token
     const token = await getSecureToken();
 
-    console.log("Fetching from:", BACKEND_URL);
     const res = await fetch(`${BACKEND_URL}/aiwaah`, {
       method: "POST",
       headers: {
@@ -265,7 +255,6 @@ async function loadChatHistory(token) {
   try {
     const user = await auth0Client.getUser();
     const url = `${BACKEND_URL}/history`;
-    console.log("📚 Fetching History from:", url, "for:", user.sub);
     const res = await fetch(url, {
       headers: {
         "Authorization": `Bearer ${token}`,
@@ -276,7 +265,7 @@ async function loadChatHistory(token) {
     if (!res.ok) throw new Error("Failed to load history");
 
     const messages = await res.json();
-    console.log("📜 History loaded:", messages.length, "messages");
+
 
     // Clear existing welcome message if we have history
     if (messages.length > 0) {
