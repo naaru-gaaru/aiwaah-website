@@ -12,15 +12,19 @@ const googleBtn = document.getElementById("login-google");
  * 2️⃣ SUPABASE CONFIG (PUBLIC / SAFE)
  *****************************************************/
 /*****************************************************
- * 2️⃣ SUPABASE CONFIG (PUBLIC / SAFE)
+ * 2️⃣ AUTH CONFIG (Auth0)
  *****************************************************/
-const SUPABASE_URL = "https://rqwnwkmjeiyagvyzdumi.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJxd253a21qZWl5YWd2eXpkdW1pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjczOTI4NzMsImV4cCI6MjA4Mjk2ODg3M30.T7h97fh3jgUC7NVa9O3Nz024ZWuR6Wz4d_fx7MKE5mo";
+let auth0Client = null;
 
-const supabaseClient = supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_ANON_KEY
-);
+const auth0Config = {
+  domain: "dev-vdi60zpk3pq4icvf.ca.auth0.com",
+  clientId: "Z0gHJR6pIDZiQWSBA8qZzyQKJJ4ZGzYA",
+  authorizationParams: {
+    redirect_uri: window.location.origin,
+    audience: "https://aiwaah-backend"
+  }
+};
+
 
 /*****************************************************
  * 3️⃣ BACKEND CONFIG
@@ -72,38 +76,47 @@ function removeTypingIndicator() {
 /*****************************************************
  * 6️⃣ AUTH STATE (SINGLE SOURCE OF TRUTH)
  *****************************************************/
+/*****************************************************
+ * 6️⃣ AUTH STATE & INITIALIZATION
+ *****************************************************/
 async function initAuth() {
-  const { data } = await supabaseClient.auth.getSession();
+  try {
+    auth0Client = await auth0.createAuth0Client(auth0Config);
 
-  if (data.session) {
-    hideLogin();
-  } else {
-    showLogin();
+    // Handle Redirect Callback (if returning from login)
+    if (location.search.includes("state=") && (location.search.includes("code=") || location.search.includes("error="))) {
+      await auth0Client.handleRedirectCallback();
+      window.history.replaceState({}, document.title, "/");
+    }
+
+    const isAuthenticated = await auth0Client.isAuthenticated();
+
+    if (isAuthenticated) {
+      hideLogin();
+      console.log("User is authenticated");
+    } else {
+      showLogin();
+      console.log("User is NOT authenticated");
+    }
+  } catch (error) {
+    console.error("Auth0 Init Error:", error);
   }
 }
 
-/* Listen ONCE — do NOT duplicate this */
-supabaseClient.auth.onAuthStateChange((_event, session) => {
-  if (session) {
-    hideLogin();
-  } else {
-    showLogin();
-  }
-});
 
 /*****************************************************
  * 7️⃣ GOOGLE SIGN-IN
  *****************************************************/
+/*****************************************************
+ * 7️⃣ ACTION HANDLERS
+ *****************************************************/
 if (googleBtn) {
   googleBtn.addEventListener("click", async () => {
-    await supabaseClient.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: window.location.origin
-      }
-    });
+    if (!auth0Client) return;
+    await auth0Client.loginWithRedirect();
   });
 }
+
 
 /*****************************************************
  * 8️⃣ INITIAL GREETING
@@ -131,10 +144,16 @@ form.addEventListener("submit", async (e) => {
   addTypingIndicator();
 
   try {
+    // Get Token
+    const token = await auth0Client.getTokenSilently();
+
     console.log("Fetching from:", BACKEND_URL);
     const res = await fetch(`${BACKEND_URL}/aiwaah`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
       body: JSON.stringify({ message })
     });
 
@@ -158,3 +177,4 @@ form.addEventListener("submit", async (e) => {
  * 🔟 INIT
  *****************************************************/
 initAuth();
+
