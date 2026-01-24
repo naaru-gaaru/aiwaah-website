@@ -264,8 +264,9 @@ initAuth();
 async function loadChatHistory(token) {
   try {
     const user = await auth0Client.getUser();
-    console.log("📚 Loading History for:", user.sub);
-    const res = await fetch(`${BACKEND_URL}/history`, {
+    const url = `${BACKEND_URL}/history`;
+    console.log("📚 Fetching History from:", url, "for:", user.sub);
+    const res = await fetch(url, {
       headers: {
         "Authorization": `Bearer ${token}`,
         "X-User-ID": user.sub
