@@ -371,3 +371,45 @@ body {
     opacity: 1 !important;
     visibility: visible !important;
 }
+
+/* ===============================
+   USER PROFILE
+================================ */
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: 15px;
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.user-name {
+  color: white;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+/* Chat Avatar */
+.chat-avatar-user {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  margin-right: 10px;
+  float: left;
+}
+
+.message.user.has-avatar {
+  display: flex;
+  align-items: center;
+}
+
+.message.user.has-avatar p {
+    margin: 0;
+}

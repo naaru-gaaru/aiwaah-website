@@ -8,6 +8,12 @@ const input = document.getElementById("user-input");
 const sendBtn = document.getElementById("send-btn");
 const googleBtn = document.getElementById("login-google");
 const logoutBtn = document.getElementById("logout-btn");
+const userInfo = document.getElementById("user-info");
+const userAvatar = document.getElementById("user-avatar");
+const userName = document.getElementById("user-name");
+
+let currentUser = null;
+
 
 
 /*****************************************************
@@ -40,12 +46,22 @@ const BACKEND_URL = "https://aiwaah-backend.onrender.com";
 function showLogin() {
   if (googleBtn) googleBtn.style.display = "inline-flex";
   if (logoutBtn) logoutBtn.style.display = "none";
+  if (userInfo) userInfo.style.display = "none";
 }
 
 function hideLogin() {
   if (googleBtn) googleBtn.style.display = "none";
   if (logoutBtn) logoutBtn.style.display = "inline-flex";
+  if (userInfo) userInfo.style.display = "flex";
 }
+
+function updateUserInfo(user) {
+  if (!user) return;
+  currentUser = user;
+  if (userName) userName.textContent = user.name || user.email;
+  if (userAvatar) userAvatar.src = user.picture;
+}
+
 
 
 /*****************************************************
@@ -61,6 +77,16 @@ function addMessage(text, role) {
   // Use marked.parse to convert Markdown -> HTML
   // DOMPurify is recommended for security, but skipping for simplicity as per "Plain JS" request
   bubble.innerHTML = typeof marked !== "undefined" ? marked.parse(text) : `<p>${text}</p>`;
+
+  // Add Avatar for User
+  if (role === 'user' && currentUser && currentUser.picture) {
+    const avatar = document.createElement("img");
+    avatar.src = currentUser.picture;
+    avatar.className = "chat-avatar-user";
+    bubble.insertBefore(avatar, bubble.firstChild);
+    bubble.classList.add("has-avatar");
+  }
+
   chatContent.appendChild(bubble);
   scrollToBottom();
 }
@@ -100,6 +126,11 @@ async function initAuth() {
     const isAuthenticated = await auth0Client.isAuthenticated();
 
     if (isAuthenticated) {
+      // Get User Profile
+      const user = await auth0Client.getUser();
+      console.log("👤 User Profile:", user);
+      updateUserInfo(user);
+
       hideLogin();
       console.log("User is authenticated");
     } else {
