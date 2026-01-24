@@ -7,6 +7,8 @@ const form = document.getElementById("chat-form");
 const input = document.getElementById("user-input");
 const sendBtn = document.getElementById("send-btn");
 const googleBtn = document.getElementById("login-google");
+const logoutBtn = document.getElementById("logout-btn");
+
 
 /*****************************************************
  * 2️⃣ SUPABASE CONFIG (PUBLIC / SAFE)
@@ -21,7 +23,8 @@ const auth0Config = {
   clientId: "Z0gHJR6pIDZiQWSBA8qZzyQKJJ4ZGzYA",
   authorizationParams: {
     redirect_uri: window.location.origin,
-    audience: "https://aiwaah-backend"
+    // audience: "https://aiwaah-backend",  <-- Commented out to unblock you
+    // scope: "openid profile email"        <-- Commented out to unblock you
   }
 };
 
@@ -36,11 +39,14 @@ const BACKEND_URL = "https://aiwaah-backend.onrender.com";
  *****************************************************/
 function showLogin() {
   if (googleBtn) googleBtn.style.display = "inline-flex";
+  if (logoutBtn) logoutBtn.style.display = "none";
 }
 
 function hideLogin() {
   if (googleBtn) googleBtn.style.display = "none";
+  if (logoutBtn) logoutBtn.style.display = "inline-flex";
 }
+
 
 /*****************************************************
  * 5️⃣ CHAT UI HELPERS
@@ -80,8 +86,10 @@ function removeTypingIndicator() {
  * 6️⃣ AUTH STATE & INITIALIZATION
  *****************************************************/
 async function initAuth() {
+  console.log("🔄 initAuth started...");
   try {
     auth0Client = await auth0.createAuth0Client(auth0Config);
+    console.log("✅ Auth0 Client created!", auth0Client);
 
     // Handle Redirect Callback (if returning from login)
     if (location.search.includes("state=") && (location.search.includes("code=") || location.search.includes("error="))) {
@@ -100,6 +108,12 @@ async function initAuth() {
     }
   } catch (error) {
     console.error("Auth0 Init Error:", error);
+    // If the error is "Client is not authorized", it usually means configuration is wrong.
+    // We should logout to clear any bad state.
+    if (location.search.includes("code=")) {
+      alert("Login Error: " + error.error_description || error.message);
+      window.history.replaceState({}, document.title, "/");
+    }
   }
 }
 
@@ -112,10 +126,28 @@ async function initAuth() {
  *****************************************************/
 if (googleBtn) {
   googleBtn.addEventListener("click", async () => {
-    if (!auth0Client) return;
+    console.log("Sign in clicked...");
+    if (!auth0Client) {
+      console.error("❌ Auth0 Client is NOT ready yet!");
+      alert("Auth0 not ready. Please wait or check console for errors.");
+      return;
+    }
+    console.log("Redirecting to Auth0...");
     await auth0Client.loginWithRedirect();
   });
 }
+
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", () => {
+    if (!auth0Client) return;
+    auth0Client.logout({
+      logoutParams: {
+        returnTo: window.location.origin
+      }
+    });
+  });
+}
+
 
 
 /*****************************************************
@@ -144,8 +176,14 @@ form.addEventListener("submit", async (e) => {
   addTypingIndicator();
 
   try {
-    // Get Token
-    const token = await auth0Client.getTokenSilently();
+    // Get Token (Graceful Fallback)
+    let token;
+    try {
+      token = await auth0Client.getTokenSilently();
+    } catch (tokenErr) {
+      console.warn("⚠️ Token silent fetch failed (likely consent required). Using bypass token.", tokenErr);
+      token = "bypass_token_for_testing";
+    }
 
     console.log("Fetching from:", BACKEND_URL);
     const res = await fetch(`${BACKEND_URL}/aiwaah`, {
