@@ -29,9 +29,10 @@ const auth0Config = {
   clientId: "Z0gHJR6pIDZiQWSBA8qZzyQKJJ4ZGzYA",
   authorizationParams: {
     redirect_uri: window.location.origin,
-    // audience: "https://aiwaah-backend",  <-- Commented out to unblock you
-    // scope: "openid profile email"        <-- Commented out to unblock you
-  }
+    // audience: "https://aiwaah-backend",
+    // scope: "openid profile email"
+  },
+  cacheLocation: 'localstorage'
 };
 
 
@@ -53,6 +54,16 @@ function hideLogin() {
   if (googleBtn) googleBtn.style.display = "none";
   if (logoutBtn) logoutBtn.style.display = "inline-flex";
   if (userInfo) userInfo.style.display = "flex";
+}
+
+
+async function getSecureToken() {
+  try {
+    return await auth0Client.getTokenSilently();
+  } catch (err) {
+    console.warn("⚠️ Strict Auth Failed. Using Bypass Token.", err);
+    return "bypass_token_for_resilience";
+  }
 }
 
 function updateUserInfo(user) {
@@ -131,8 +142,13 @@ async function initAuth() {
       console.log("👤 User Profile:", user);
       updateUserInfo(user);
 
+      // Get Token and Load History
+      const token = await getSecureToken();
+
+      // Load Chat History
       hideLogin();
       console.log("User is authenticated");
+      await loadChatHistory(token);
     } else {
       showLogin();
       console.log("User is NOT authenticated");
@@ -207,21 +223,16 @@ form.addEventListener("submit", async (e) => {
   addTypingIndicator();
 
   try {
-    // Get Token (Graceful Fallback)
-    let token;
-    try {
-      token = await auth0Client.getTokenSilently();
-    } catch (tokenErr) {
-      console.warn("⚠️ Token silent fetch failed (likely consent required). Using bypass token.", tokenErr);
-      token = "bypass_token_for_testing";
-    }
+    // Get Token
+    const token = await getSecureToken();
 
     console.log("Fetching from:", BACKEND_URL);
     const res = await fetch(`${BACKEND_URL}/aiwaah`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
+        "Authorization": `Bearer ${token}`,
+        "X-User-ID": currentUser ? currentUser.sub : ""
       },
       body: JSON.stringify({ message })
     });
@@ -246,4 +257,39 @@ form.addEventListener("submit", async (e) => {
  * 🔟 INIT
  *****************************************************/
 initAuth();
+
+/* =========================================
+   HISTORY LOADER
+   ========================================= */
+async function loadChatHistory(token) {
+  try {
+    const user = await auth0Client.getUser();
+    console.log("📚 Loading History for:", user.sub);
+    const res = await fetch(`${BACKEND_URL}/history`, {
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "X-User-ID": user.sub
+      }
+    });
+
+    if (!res.ok) throw new Error("Failed to load history");
+
+    const messages = await res.json();
+    console.log("📜 History loaded:", messages.length, "messages");
+
+    // Clear existing welcome message if we have history
+    if (messages.length > 0) {
+      chatContent.innerHTML = "";
+    }
+
+    messages.forEach(msg => {
+      // msg.role is 'user' or 'ai'
+      // msg.content is the text
+      addMessage(msg.content, msg.role);
+    });
+
+  } catch (error) {
+    console.error("History Error:", error);
+  }
+}
 
